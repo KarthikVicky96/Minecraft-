@@ -1,0 +1,43 @@
+---
+- name: Configure Minecraft server
+  hosts: kubernetes_nodes
+  become: yes
+
+  tasks:
+    - name: Install Docker
+      apt:
+        name: docker.io
+        state: present
+      register: docker_installed
+
+    - name: Add user to docker group
+      user:
+        name: "{{ ansible_user }}"
+        groups: docker
+      when: docker_installed.changed
+
+    - name: Create persistent volume for Minecraft data
+      k8s:
+        api_version: "v1"
+        kind: "PersistentVolume"
+        metadata:
+          name: "minecraft-data-pv"
+        spec:
+          capacity:
+            storage: "10Gi"
+          accessModes:
+            - "ReadWriteOnce"
+          persistentVolumeReclaimPolicy: "Retain"
+          storageClassName: "standard"
+          hostPath:
+            path: "/mnt/data/minecraft"
+
+    - name: Create deployment for Minecraft server
+      k8s:
+        definition: "{{ lookup('template', 'minecraft-deployment.yaml.j2') }}"
+        state: present
+
+    - name: Create service for Minecraft server
+      k8s:
+        definition: "{{ lookup('template', 'minecraft-service.yaml.j2') }}"
+        state: present
