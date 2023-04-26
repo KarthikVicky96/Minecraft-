@@ -14,13 +14,13 @@ Minecraft-project
                 |  |  +------------+  +-------------+          | |
                 |  |         |                |                | |
                 |  |  +------+-------+  +-----+-------+        | |
-                |  |  |  EC2 Instance  |  | EC2 Instance |     | |
+                |  |  |  EC2 Instance  |  | EC2 Instance|      | |
                 |  |  |  (Terraform)   |  |  (Terraform)|      | |
                 |  |  |                |  |             |      | |
                 |  |  |  +---------+   |  | +---------+ |      | |
                 |  |  |  | Docker  |   |  | | Docker  | |      | |
                 |  |  |  |         |   |  | |         | |      | |
-                |  |  |  | Minecraft|   |  | | Minecraft| |    | |
+                |  |  |  | Minecraft|  |  | | Minecraft||      | |
                 |  |  |  | Server  |   |  | | Server  | |      | |
                 |  |  |  +---------+   |  | +---------+ |      | |
                 |  |  |     Pod 1      |  |    Pod 2    |      | |
